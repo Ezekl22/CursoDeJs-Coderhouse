@@ -1,0 +1,77 @@
+.nav-style{
+    height: 85px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+}
+
+.btnVar{
+    height: 98%;
+    line-height: 50px;
+    padding-top: 15px;
+}
+
+.btnLoginContainer{
+    width: 32%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btnContainer{
+    width: 15%;
+}
+
+.logo{
+    height: 65px;
+    width: 130px;
+    margin-left: 35px;
+}
+
+.imagenContainer{
+    margin: 9px 100px 5px 25px;
+    width: 23%;
+}
+
+.tamanioImagen{
+    height: 400px;
+    width: 800px;
+    float: right;
+    padding-right: 15px;
+}
+
+.contenedorItem{
+    background-color: blue;
+}
+
+.carruselCaption{
+    position: absolute;
+    bottom: 120px;
+    left: 10%;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    color: #fff;
+    text-align: center;
+}
+
+.carruselControl{
+    width: 5% !important;
+}
+
+.centrado{
+    text-align: center;
+}
+
+.loginIcon{
+    width: 32px;
+    height: 32px;
+    margin-top: 9px;
+    margin-left: 5px;
+}
+
+.btnLogin{
+    display: flex;
+    flex-direction: row;
+}
+
+.imgIcon{
+    width: 23px;
+    height: 23px;
+}
