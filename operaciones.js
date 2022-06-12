@@ -2,7 +2,7 @@
 let eleccionNoValida = false;
 let salir = false;
 
-eleccionInicial();
+//eleccionInicial();
 
 function eleccionOperacion(mensaje, cantOpciones, mensajeOpciones){
 
