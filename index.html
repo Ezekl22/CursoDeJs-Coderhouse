@@ -1,82 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
+    
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script defer src="constantes.js"></script>
     <script defer src="usuario.js"></script>
     <script defer src="vehiculo.js"></script>
-    <script defer src="operaciones.js"></script>
+    <script defer src="main.js"></script>
+    <script defer src="popUp.js"></script>
+    <script defer src="menu_usuario.js"></script>
 
     <title>Consecionaria</title>
 </head>
 <body>
+    
     <ul class="nav nav-tabs nav-style">
         <li class="imagenContainer">
             <img src="./img/auto.P89" alt="" class="logo">
         </li>
         <li class="nav-item btnContainer">
-            <a class="nav-link btnVar centrado" href="#">Catalogo</a>
+            <a class="nav-link btnVar centrado" onclick="mostrarInicio()" href="#">Inicio</a>
         </li>
         <li class="nav-item btnContainer">
-            <a class="nav-link btnVar centrado" href="#">vender mi auto</a>
+            <a class="nav-link btnVar centrado" onclick="menu_usuario()" href="#">Adquiri tu plan</a>
+        </li>
+        <li class="nav-item btnContainer">
+            <a class="nav-link btnVar centrado" onclick="card()" href="#">Catalogo</a>
+        </li>
+        <li class="nav-item btnContainer">
+            <a class="nav-link btnVar centrado" onclick="login()" href="#">vender mi auto</a>
         </li>
         <li class="nav-item btnLoginContainer">
-            <a class="nav-link btnVar btnLogin" onclick="eleccionInicial()" href="#">
+            <button type="button" class="nav-link btnVar btnLogin" onclick="popUp('1')">
                 Login
                 <img src="./img/usuario.svg" alt="" class="loginIcon">
-            </a>
+            </button>
         </li>
     </ul>
 
     <div id="carouselExampleDark" class="carousel carousel-whithe slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-          <div class="carousel-item active contenedorItem" data-bs-interval="10000">
-            <div class="carruselCaption d-none d-md-block posicionIzquierda">
-                <h5>Financiacion</h5>
-                <p class="alineacionIzquierda">Hasta <b>18 cuotas</b> sin interes.</p>
+            <div class="carousel-item active contenedorItem" data-bs-interval="10000">
+                <div class="carruselCaption d-none d-md-block posicionIzquierda">
+                    <h5>Financiacion</h5>
+                    <p class="alineacionIzquierda">Hasta <b>18 cuotas</b> sin interes.</p>
             </div>
             <img src="./img/volswagenGoldTend.jpg" class="d-block tamanioImagen" alt="...">
-          </div>
-          <div class="carousel-item contenedorItem" data-bs-interval="2000">
+        </div>
+        <div class="carousel-item contenedorItem" data-bs-interval="2000">
             <img src="./img/toyotaCorolla.jpg" class="tamanioImagen " alt="...">
             <div class="carruselCaption d-none d-md-block posicionIzquierda">
-              <h5>Podemos vender su usado</h5>
-              <p class="alineacionIzquierda">Ingrese sus vehiculos y publiquelo en nuestro sitio.</p>
+                <h5>Podemos vender su usado</h5>
+                <p class="alineacionIzquierda">Ingrese sus vehiculos y publiquelo en nuestro sitio.</p>
             </div>
-          </div>
-          <div class="carousel-item contenedorItem">
+        </div>
+        <div class="carousel-item contenedorItem">
             <img src="./img/camioneta.jpg" class="d-block tamanioImagen" alt="...">
             <div class="carruselCaption d-none d-md-block posicionIzquierda">
-              <h4>Usados</h4>
-              <p class="alineacionIzquierda">Comprá tu auto usado como si fuera 0 km.<br>
-                 <img src="./img/certification.svg" class="imgIcon" alt=""> 
-                 Certificación mecánica de más de 280 puntos <br>
-                 Garantía de 6 meses <br>
-                 Documentación en regla <br>
-                 Acompañamiento durante todo el proceso
-              </p>
+                <h4>Usados</h4>
+                <p class="alineacionIzquierda">Comprá tu auto usado como si fuera 0 km.<br>
+                    <img src="./img/certification.svg" class="imgIcon" alt=""> 
+                    Certificación mecánica de más de 280 puntos <br>
+                    Garantía de 6 meses <br>
+                    Documentación en regla <br>
+                    Acompañamiento durante todo el proceso
+                </p>
             </div>
-          </div>
         </div>
         <button class="carousel-control-prev carruselControl" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next carruselControl" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
         </button>
     </div>
 </body>
