@@ -26,7 +26,7 @@ function loginUsuario(){
     
 
     if(loginCorrecto(email, contrasenia)){
-        
+
         popUp.remove();
 
         menu_usuario();
@@ -40,7 +40,7 @@ function loginUsuario(){
             textError.textContent = "La contraseña o el correo ingresado es incorrecto";
             textError.style = "color: red;"
 
-            subtitulo.appendChild(textError);
+            subtitulo.appendChild(textError); 
         }
     }
 }
