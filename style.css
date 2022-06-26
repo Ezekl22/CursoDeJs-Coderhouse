@@ -10,7 +10,7 @@
 }
 
 .btnLoginContainer{
-    width: 28%;
+    width: 40%;
     display: flex;
     justify-content: flex-end;
 }
@@ -244,19 +244,58 @@
 }
 
 .textCreacionUs{
-    margin: 10px 0px 0px 0px;
+    margin: 0px 0px 11px 0px;
 }
 
 #selCatFiscalP{
-    padding-top: 10px;
+    padding: 2px 3px;
 }
 
 #btnGuardarPU{
     margin-top: 15px;
 }
 
-.filaCreacionUs{
+.columCU{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#contVVenta{
+    margin: 15px;
+}
+
+.contCVehiculo{
+    display: flex;
+    flex-direction: column;    
+    width: 100%;
+}
+.ContDatosV{
+    display: flex;
+    flex-direction: row;    
+    width: 100%;
+}
+
+
+.widgetText{
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.widget{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: left;
+    margin-bottom: 25px;
+}
+
+.primerCol{
+    padding-right: 25px;
+    width: 50%;
+}
+
+.contTitulo{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
 }
