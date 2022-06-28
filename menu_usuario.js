@@ -22,13 +22,12 @@ function vehiculosVenta(recargar) {
 
   if (recargar || !contVenta) {
 
-    if (contVenta)
-      contVenta.remove();
+    contVenta && contVenta.remove();
 
     const contLabel = document.getElementById("pills-venta");
     const contVVenta = document.createElement("div");
     const btnCargarV = widgetBoton("btnCargarV", function () { popUp('3'); }, "Cargar vehiculo");
-    const usuario = usuarioLogueado();
+    const usuario = getUsuarioLogueado();
 
     contVVenta.id = "contVVenta";
 
@@ -48,14 +47,12 @@ function vehiculosVenta(recargar) {
 
 function cards(tipo) {
   const contenedorCards = document.getElementById("contCards");
-
-  if (contenedorCards) {
-    contenedorCards.remove();
-  }
+  
+  contenedorCards &&  contenedorCards.remove();
 
   const contCards = document.createElement("div");
   const filaCard = document.createElement("div");
-  const usuario = usuarioLogueado();
+  const usuario = getUsuarioLogueado();
   const vehiculos = usuario.vehiculosVenta;
 
   contCards.id = "contCards";

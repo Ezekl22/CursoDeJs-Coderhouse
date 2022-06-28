@@ -1,47 +1,47 @@
 
 let eleccionNoValida = false;
 let salir = false;
-const usuarios = usuarios;
+const admin = new usuario("admin", "1234", "Administrador", "Administrador", "99", "exento")
 
 checkLogin("inicio");
 
 //creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
-const admin = new usuario("admin","1234","Administrador","Administrador","99","exento"); 
-usuarios.push(admin);
+!getUsuarios() && setUsuario(admin);
 
-function ocultarInicio(){
+function ocultarInicio() {
     document.getElementById("carouselExampleDark").style.display = "none";
 }
 
- function cerrarSesion(){
+function cerrarSesion() {
     localStorage.removeItem("usuarioLog");
     ocultarMenuUsuario();
     mostrarInicio();
 }
 
-function mostrarInicio(){
+function mostrarInicio() {
     const menuUsuario = document.getElementById("contMnUsuario");
 
-    if(menuUsuario){
+    if (menuUsuario) {
         menuUsuario.remove();
     }
     ocultarMenuUsuario();
     document.getElementById("carouselExampleDark").style.display = "block";
 }
 
-function loginUsuario(email, contrasenia){
+function loginUsuario(email, contrasenia) {
     const popUp = document.getElementById("ventPopUp");
     let emailLog = email;
     let contraseniaLog = contrasenia;
-    if(!(emailLog && contraseniaLog)){
+    if (!(emailLog && contraseniaLog)) {
         emailLog = document.getElementById("correoTxtP").value;
-        contraseniaLog = document.getElementById("contraTxtP").value; 
+        contraseniaLog = document.getElementById("contraTxtP").value;
     }
-    const usuario = loginCorrecto(emailLog, contraseniaLog);
-    
 
-    if(usuario === false){
-        if(!document.getElementById("textError")){
+    const usuario = loginCorrecto(emailLog, contraseniaLog);
+
+
+    if (usuario === false) {
+        if (!document.getElementById("textError")) {
             const subtitulo = document.getElementById("subTituloP");
             const textError = document.createElement("span");
 
@@ -50,11 +50,11 @@ function loginUsuario(email, contrasenia){
             textError.textContent = "La contraseña o el correo ingresado es incorrecto";
             textError.style = "color: red;"
 
-            subtitulo.appendChild(textError); 
+            subtitulo.appendChild(textError);
         }
-    }else{
+    } else {
 
-        localStorage.setItem("usuarioLog", JSON.stringify(usuario)); 
+        setUsuarioLogueado(usuario);
 
         popUp.remove();
 
@@ -62,39 +62,56 @@ function loginUsuario(email, contrasenia){
     }
 }
 
-function usuarios(){
+function getUsuarios() {
     return JSON.parse(localStorage.getItem("usuarios"));
 }
 
-function usuarioLogueado(){
-    return JSON.parse(localStorage.getItem("usuarioLog"));
-}
-
-function loginCorrecto(email, contrasenia){
-    for (let usuario of usuarios) {
-        if (usuario.email === email && usuario.contrasenia === contrasenia){
-            return usuario;
-        }else{
-            return false;
-        }
+function setUsuario(usuario) {
+    if (usuario) {
+        let usuarios = getUsuarios() ? getUsuarios() : [];
+        usuarios.push(usuario);
+        localStorage.removeItem("usuarios");
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
     }
 }
 
-function mostratMenuUsuario(){
+function getUsuarioLogueado() {
+    return JSON.parse(localStorage.getItem("usuarioLog"));
+}
+
+function setUsuarioLogueado(usuario) {
+    if (usuario) {
+        localStorage.removeItem("usuarioLog");
+        localStorage.setItem("usuarioLog", JSON.stringify(usuario));
+    }
+}
+
+function loginCorrecto(email, contrasenia) {
+    for (const usuario of getUsuarios()) {
+        // if (usuario.email === email && usuario.contrasenia === contrasenia) {
+        //     return usuario;
+        // } else {
+        //     return false;
+        // }
+        return (usuario.email === email && usuario.contrasenia === contrasenia)? usuario : false;
+    }
+}
+
+function mostratMenuUsuario() {
 
     const contNavPills = document.getElementById("contNavPills");
 
     contNavPills.style.display = "";
 }
 
-function ocultarMenuUsuario(){
+function ocultarMenuUsuario() {
 
     const contNavPills = document.getElementById("contNavPills");
 
     contNavPills.style.display = "none";
 }
 
-function crearUsuario(){
+function crearUsuario() {
 
     const email = document.getElementById("textEmail").value;
     const contrasenia = document.getElementById("textContraseña").value;
@@ -102,24 +119,27 @@ function crearUsuario(){
     const apellido = document.getElementById("textApellido").value;
     const edad = document.getElementById("textEdad").value;
     const categoriaFiscal = document.getElementById("selCatFiscalP").value;
-    
 
-    if(email && contrasenia && nombre && apellido && edad && categoriaFiscal){
-        
+
+    if (email && contrasenia && nombre && apellido && edad && categoriaFiscal) {
+
         const popUp = document.getElementById("ventPopUp");
         const newUsuario = new usuario(email, contrasenia, nombre, apellido, edad, categoriaFiscal);
+
+        
 
         popUp.remove();
 
         localStorage.setItem("usuarioLog", JSON.stringify(newUsuario));
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        
+        setUsuario(newUsuario);
 
         menu_usuario();
 
-        usuarios.push(newUsuario);
+        setUsuario(newUsuario);
 
-    }else if(!document.getElementById("mensajeError")) {
-        
+    } else if (!document.getElementById("mensajeError")) {
+
         const mensajeError = document.createElement("spam");
         const contTitulo = document.getElementById("contTituloCU")
 
@@ -133,37 +153,37 @@ function crearUsuario(){
 
 }
 
-function checkLogin(accion){
-    const usuario =  usuarioLogueado();
-    if(usuario || accion === "inicio"){
-        
+function checkLogin(accion) {
+    const usuario = getUsuarioLogueado();
+    if (usuario || accion === "inicio") {
+
         switch (accion) { // muesto el popup de cargar vehiculo
             case "1":
                 popUp('3');
-            break;
+                break;
             case "2":// muesto el menu de usuario
                 ocultarInicio();
                 menu_usuario(usuario);
-            break;
+                break;
 
             case "inicio":// muesto el menu de usuario
-               
-            break;
-        
+
+                break;
+
             default: //solo muestro el menu de usuario
                 ocultarInicio();
                 menu_usuario(usuario);
-            break;
+                break;
         }
-    }else{
+    } else {
         popUp('1');
     }
-        
+
 }
 
-function cargarVehiculo(){
-    
-    const usuario =  usuarioLogueado();
+function cargarVehiculo() {
+
+    const usuario = getUsuarioLogueado();
     const marca = document.getElementById("MarcaCV").value;
     const modelo = document.getElementById("ModeloCV").value;
     const anioCreacion = document.getElementById("AnioCV").value;
@@ -176,23 +196,22 @@ function cargarVehiculo(){
     const datosCorrectos = marca && modelo && anioCreacion && cantPuertas && precioContado;
 
 
-    if(datosCorrectos){
+    if (datosCorrectos) {
         const vehiculo = new Vehiculo(marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado);
         const popUp = document.getElementById("ventPopUp");
 
         usuario.vehiculosVenta.push(vehiculo);
-        localStorage.removeItem("usuarioLog");
-        localStorage.setItem("usuarioLog", JSON.stringify(usuario));
+        setUsuarioLogueado(usuario);
         menu_usuario();
         vehiculosVenta(true);
         popUp.remove();
 
-        
-    }else{
+
+    } else {
         const contTitulo = document.getElementById("contTituloCV");
         const subtitulo = document.createElement("spam");
 
-        subtitulo.color = "red";
+        subtitulo.style.color = "red";
         subtitulo.textContent = "debe completar todos los campos";
 
         contTitulo.appendChild(subtitulo);
