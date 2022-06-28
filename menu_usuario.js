@@ -18,8 +18,12 @@ function menu_usuario() {
 }
 
 function vehiculosVenta(recargar) {
-  if (recargar || !document.getElementById("contVVenta")) {
+  const contVenta = document.getElementById("contVVenta");
 
+  if (recargar || !contVenta) {
+
+    if (contVenta)
+      contVenta.remove();
 
     const contLabel = document.getElementById("pills-venta");
     const contVVenta = document.createElement("div");
@@ -27,11 +31,11 @@ function vehiculosVenta(recargar) {
     const usuario = usuarioLogueado();
 
     contVVenta.id = "contVVenta";
-    
 
-    if (usuario.vehiculosVenta.length < 0) {
 
-      contLabel.appendChild(cards(1), usuario);
+    if (usuario.vehiculosVenta.length > 0) {
+
+      contLabel.appendChild(cards(1));
     } else {
       contVVenta.textContent = "No tiene autos para la venta. ";
 
@@ -42,55 +46,82 @@ function vehiculosVenta(recargar) {
   }
 }
 
-function cards(tipo, usuario) {
-  if (!document.getElementById("contCards")) {
-    const contCards = document.createElement("div");
-    const filaCard = document.createElement("div");
+function cards(tipo) {
+  const contenedorCards = document.getElementById("contCards");
 
-    contCards.id = "contCards";
-
-    filaCard.className = "row row-cols-1 row-cols-md-3 g-4"
-
-    for (let i = 0; i < 3; i++) {
-      const columnaCard = document.createElement("div");
-      const contCard = document.createElement("div");
-      const imgCard = document.createElement("img");
-      const contTextoCard = document.createElement("div");
-      const tituloCard = document.createElement("h5");
-      const textCard = document.createElement("p");
-
-      textCard.className = "card-text";
-
-      tituloCard.className = "card-title";
-
-      contTextoCard.className = "card-body";
-
-      imgCard.className = "card-img-top";
-      imgCard.src = "...";
-
-      contCard.className = "card";
-
-      columnaCard.className = "col";
-
-      contTextoCard.appendChild(tituloCard);
-      contTextoCard.appendChild(textCard);
-      contCard.appendChild(imgCard);
-      contCard.appendChild(contTextoCard);
-      columnaCard.appendChild(contCard);
-      filaCard.appendChild(columnaCard);
-    }
-
-    contCards.appendChild(filaCard);
-
-  } else {
-
-
-    contCards.textContent = "No posee autos a la venta";
-
-
-
-
+  if (contenedorCards) {
+    contenedorCards.remove();
   }
+
+  const contCards = document.createElement("div");
+  const filaCard = document.createElement("div");
+  const usuario = usuarioLogueado();
+  const vehiculos = usuario.vehiculosVenta;
+
+  contCards.id = "contCards";
+
+  filaCard.className = "row row-cols-1 row-cols-md-3 g-4"
+
+  for (const vehiculo of vehiculos) {
+    const nombreCaract = ["", "Modelo: ", "Año: ", "Tipo: ", "Aire acondicionado: ", "Calefaccion: ", "Tipo de direccion: ", "Cantidad de puertas: ", "Valor: $"];
+    const columnaCard = document.createElement("div");
+    const contCard = document.createElement("div");
+    const imgCard = document.createElement("img");
+    const contTextoCard = document.createElement("div");
+    const tituloCard = document.createElement("h5");
+    const textCard = document.createElement("div");
+    const aireAc = vehiculo.anioCreacion ? "si" : "no";
+    const calefaccion = vehiculo.calefaccion ? "si" : "no";
+    const caracteristicas = Object.values(vehiculo);
+
+    for (let i = 1; i<caracteristicas.length; i++){
+      const textCaract = document.createElement("spam");
+
+      textCaract.className = "textCaract";
+
+      switch (nombreCaract[i]) {
+        case nombreCaract[4]:
+          textCaract.textContent = nombreCaract[i] + aireAc;
+          break;
+
+        case nombreCaract[5]:
+          textCaract.textContent = nombreCaract[i] + calefaccion;
+          break;
+      
+        default:
+          textCaract.textContent = nombreCaract[i] + caracteristicas[i];
+          break;
+      }
+      
+      textCard.appendChild(textCaract);
+    }
+    textCard.className = "card-text";
+
+    tituloCard.className = "card-title";
+    tituloCard.textContent = vehiculo.marca;
+
+    contTextoCard.className = "card-body";
+
+    imgCard.className = "card-img-top";
+    imgCard.src = "./img/iconAutomobil.png";
+
+    contCard.className = "card";
+
+    columnaCard.className = "colCards";
+
+    contTextoCard.appendChild(tituloCard);
+    contTextoCard.appendChild(textCard);
+    contCard.appendChild(imgCard);
+    contCard.appendChild(contTextoCard);
+    columnaCard.appendChild(contCard);
+    filaCard.appendChild(columnaCard);
+  }
+
+  contCards.appendChild(filaCard);
+
   return contCards;
+
+
+
 }
 
