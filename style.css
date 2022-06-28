@@ -253,6 +253,8 @@
 
 #btnGuardarPU{
     margin-top: 15px;
+    width: 170px;
+    font-size: 20px;
 }
 
 .columCU{
@@ -298,4 +300,31 @@
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
+}
+
+.card-img-top{
+    width: 50%;
+}
+
+.colCards{
+    width: 25%;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#contNavPills{
+    margin: 30px;
+}
+
+.card-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.textCaract{
+    font-size: 14px;
 }

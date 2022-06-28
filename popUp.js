@@ -112,7 +112,7 @@ function popUpCreacionUs() {
     const textDatos = ["Nombre", "Apellido", "Edad", "Email", "Contraseña", "Categoria fiscal"];
     const opcionesCatF = ["Monotributista", "Responsable inscripto", "Exento", "Consumidor final"];
     const selCatFiscalP = widgetSelect(opcionesCatF, "selCatFiscalP");
-    const btnGuardarPU = widgetBoton("btnGuardarPU", function () { crearUsuario(); })
+    const btnGuardarPU = widgetBoton("btnGuardarPU", function () { crearUsuario(); }, "Guardar");
     const columTextCU = document.createElement("div");
     const columInputCU = document.createElement("div");
     const filaCU = document.createElement("div");
@@ -145,8 +145,6 @@ function popUpCreacionUs() {
     for (let textDato of textDatos) {
 
         const textCreacionUs = document.createElement("p");
-
-
 
         textCreacionUs.textContent = `${textDato}:`;
         textCreacionUs.className = "textCreacionUs";
@@ -222,6 +220,7 @@ function popUpCargarVehiculoV() {
     precioVText.className = "widgetText";
 
     precioVInput.type = "number";
+    precioVInput.id = "precioVInput";
     precioVInput.style.width = "40%";
     precioVInput.style.paddingBottom = "5px";
 
@@ -275,11 +274,16 @@ function popUpCargarVehiculoV() {
                 contInput.appendChild(widgetCheck("calefChek"));
             break;
 
+            case "Año":
+                contInput.appendChild(widgetIText("number", "AnioCV"));
+            break;
+
+            case "Cantidad de puertas":
+                contInput.appendChild(widgetIText("number", "CantPuertasCV"));
+            break;
+
             default:
-                const inputDato = document.createElement("input");
-                inputDato.type = "text";
-                inputDato.style.width = "100%";
-                contInput.appendChild(inputDato);
+                contInput.appendChild(widgetIText("text", textDatoPCol + "CV"));
             break;
 
         }
@@ -313,6 +317,16 @@ function popUpCargarVehiculoV() {
     contCVehiculo.appendChild(btnCont);
 
     return contCVehiculo;
+}
+
+function widgetIText(type, id){
+    const inputDato = document.createElement("input");
+
+    inputDato.type = type;
+    inputDato.style.width = "100%";
+    inputDato.id = id;
+
+    return inputDato;
 }
 
 function widgetCheck(id) {

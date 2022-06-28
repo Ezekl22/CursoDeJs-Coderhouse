@@ -1,7 +1,7 @@
 
 let eleccionNoValida = false;
 let salir = false;
-const usuarios = [];
+const usuarios = usuarios;
 
 checkLogin("inicio");
 
@@ -29,11 +29,15 @@ function mostrarInicio(){
     document.getElementById("carouselExampleDark").style.display = "block";
 }
 
-function loginUsuario(){
+function loginUsuario(email, contrasenia){
     const popUp = document.getElementById("ventPopUp");
-    const email = document.getElementById("correoTxtP").value;
-    const contrasenia = document.getElementById("contraTxtP").value;
-    const usuario = loginCorrecto(email, contrasenia);
+    let emailLog = email;
+    let contraseniaLog = contrasenia;
+    if(!(emailLog && contraseniaLog)){
+        emailLog = document.getElementById("correoTxtP").value;
+        contraseniaLog = document.getElementById("contraTxtP").value; 
+    }
+    const usuario = loginCorrecto(emailLog, contraseniaLog);
     
 
     if(usuario === false){
@@ -54,8 +58,12 @@ function loginUsuario(){
 
         popUp.remove();
 
-        menu_usuario(usuario);
+        menu_usuario();
     }
+}
+
+function usuarios(){
+    return JSON.parse(localStorage.getItem("usuarios"));
 }
 
 function usuarioLogueado(){
@@ -104,8 +112,9 @@ function crearUsuario(){
         popUp.remove();
 
         localStorage.setItem("usuarioLog", JSON.stringify(newUsuario));
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-        loginUsuario();
+        menu_usuario();
 
         usuarios.push(newUsuario);
 
@@ -153,24 +162,32 @@ function checkLogin(accion){
 }
 
 function cargarVehiculo(){
-    const datosCorrectos = usuario && marca && modelo && anioCreacion && tipo && aireAcondicionado && calefaccion && tipoDireccion && cantPuertas && precioContado;
-
+    
     const usuario =  usuarioLogueado();
-    const marca = document.getElementById("").value;
-    const modelo = document.getElementById("").value;
-    const anioCreacion = document.getElementById("").value;
-    const tipo = document.getElementById("").value;
+    const marca = document.getElementById("MarcaCV").value;
+    const modelo = document.getElementById("ModeloCV").value;
+    const anioCreacion = document.getElementById("AnioCV").value;
+    const tipo = document.getElementById("selTipoVehiculo").value;
     const aireAcondicionado = document.getElementById("aireChek").value;
     const calefaccion = document.getElementById("calefChek").value;
-    const tipoDireccion = document.getElementById("").value;
-    const cantPuertas = document.getElementById("").value;
-    const precioContado = document.getElementById("").value;
+    const tipoDireccion = document.getElementById("selTipoDir").value;
+    const cantPuertas = document.getElementById("CantPuertasCV").value;
+    const precioContado = document.getElementById("precioVInput").value;
+    const datosCorrectos = marca && modelo && anioCreacion && cantPuertas && precioContado;
+
 
     if(datosCorrectos){
         const vehiculo = new Vehiculo(marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado);
-        usuario.cargarVehiculo(vehiculo);
+        const popUp = document.getElementById("ventPopUp");
+
+        usuario.vehiculosVenta.push(vehiculo);
         localStorage.removeItem("usuarioLog");
         localStorage.setItem("usuarioLog", JSON.stringify(usuario));
+        menu_usuario();
+        vehiculosVenta(true);
+        popUp.remove();
+
+        
     }else{
         const contTitulo = document.getElementById("contTituloCV");
         const subtitulo = document.createElement("spam");
@@ -178,8 +195,6 @@ function cargarVehiculo(){
         subtitulo.color = "red";
         subtitulo.textContent = "debe completar todos los campos";
 
-        contTitulo.appendChild(subtitutulo);
+        contTitulo.appendChild(subtitulo);
     }
-      
-    usuario.cargarVehiculo();
 }
