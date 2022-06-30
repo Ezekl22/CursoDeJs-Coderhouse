@@ -94,7 +94,10 @@ function setUsuarioLogueado(usuario) {
 function loginCorrecto(email, contrasenia) {
     let resultado = false;
     for (const usuario of getUsuarios()) {
-        resultado = (usuario.email === email && usuario.contrasenia === contrasenia) && usuario;
+        if(usuario.email === email && usuario.contrasenia === contrasenia){
+            resultado = usuario;
+            break;
+        }
     }
     return resultado;
 }
