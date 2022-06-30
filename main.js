@@ -2,7 +2,7 @@
 let eleccionNoValida = false;
 let salir = false;
 const admin = new usuario("admin", "1234", "Administrador", "Administrador", "99", "exento")
-
+  
 checkLogin("inicio");
 
 //creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
@@ -69,6 +69,11 @@ function getUsuarios() {
 function setUsuario(usuario) {
     if (usuario) {
         let usuarios = getUsuarios() ? getUsuarios() : [];
+
+        for(let i = 0; i< usuarios.length; i++){
+            (usuario.email === usuarios[i].email) && usuarios.splice(i,1);
+        }
+
         usuarios.push(usuario);
         localStorage.removeItem("usuarios");
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
@@ -87,14 +92,11 @@ function setUsuarioLogueado(usuario) {
 }
 
 function loginCorrecto(email, contrasenia) {
+    let resultado = false;
     for (const usuario of getUsuarios()) {
-        // if (usuario.email === email && usuario.contrasenia === contrasenia) {
-        //     return usuario;
-        // } else {
-        //     return false;
-        // }
-        return (usuario.email === email && usuario.contrasenia === contrasenia)? usuario : false;
+        resultado = (usuario.email === email && usuario.contrasenia === contrasenia) && usuario;
     }
+    return resultado;
 }
 
 function mostratMenuUsuario() {
@@ -202,10 +204,20 @@ function cargarVehiculo() {
 
         usuario.vehiculosVenta.push(vehiculo);
         setUsuarioLogueado(usuario);
+        setUsuario(usuario);
         menu_usuario();
         vehiculosVenta(true);
         popUp.remove();
 
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Su vehiculo se a cargado correctamente',
+            showConfirmButton: false,
+            width: 250,
+            height:150,
+            timer: 1500
+        })
 
     } else {
         const contTitulo = document.getElementById("contTituloCV");
