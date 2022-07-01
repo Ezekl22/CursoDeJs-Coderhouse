@@ -1,28 +1,31 @@
 
 function menu_usuario() {
-  if (!document.getElementById("contMnUsuario")) { // solo se ejecuta si no se encuentra el menu de usuario en el dom
+  const menuUsuario = document.getElementById("contMnUsuario");
 
-    const contMnUsuario = document.createElement("div");
+  menuUsuario && menuUsuario.remove();
+  const contMnUsuario = document.createElement("div");
 
-    ocultarInicio();
+  contMnUsuario.id = "contMnUsuario";
 
-    mostratMenuUsuario();
+  document.body.appendChild(contMnUsuario);
 
-    vehiculosVenta();
+  ocultarInicio();
 
-    contMnUsuario.id = "contMnUsuario";
+  mostratMenuUsuario();
 
-    document.body.appendChild(contMnUsuario);
-  }
+  vehiculosVenta();
+
+  
 
 }
 
 function vehiculosVenta(recargar) {
   const contVenta = document.getElementById("contVVenta");
 
-  if (recargar || !contVenta) {
+  contVenta && contVenta.remove();
 
-    contVenta && contVenta.remove();
+
+    
 
     const contLabel = document.getElementById("pills-venta");
     const contVVenta = document.createElement("div");
@@ -42,13 +45,12 @@ function vehiculosVenta(recargar) {
 
     }
     contLabel.appendChild(contVVenta);
-  }
 }
 
 function cards(tipo) {
   const contenedorCards = document.getElementById("contCards");
-  
-  contenedorCards &&  contenedorCards.remove();
+
+  contenedorCards && contenedorCards.remove();
 
   const contCards = document.createElement("div");
   const filaCard = document.createElement("div");
@@ -71,7 +73,7 @@ function cards(tipo) {
     const calefaccion = vehiculo.calefaccion ? "si" : "no";
     const caracteristicas = Object.values(vehiculo);
 
-    for (let i = 1; i<caracteristicas.length; i++){
+    for (let i = 1; i < caracteristicas.length; i++) {
       const textCaract = document.createElement("spam");
 
       textCaract.className = "textCaract";
@@ -84,12 +86,12 @@ function cards(tipo) {
         case nombreCaract[5]:
           textCaract.textContent = nombreCaract[i] + calefaccion;
           break;
-      
+
         default:
           textCaract.textContent = nombreCaract[i] + caracteristicas[i];
           break;
       }
-      
+
       textCard.appendChild(textCaract);
     }
     textCard.className = "card-text";
