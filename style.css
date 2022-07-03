@@ -262,8 +262,7 @@
     flex-direction: column;
     justify-content: flex-start;
 }
-
-#contVVenta{
+.contV{
     margin: 15px;
 }
 
@@ -328,4 +327,10 @@
 
 .textCaract{
     font-size: 14px;
+}
+
+.contBtn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
