@@ -8,6 +8,21 @@ checkLogin("inicio");
 //creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
 !getUsuarios() && setUsuario(admin);
 
+recargarVehiculosCookie();
+
+function recargarVehiculosCookie(){
+    localStorage.removeItem("vehiculosV");
+    for(usuario of getUsuarios()){
+        if (usuario.vehiculosVenta){
+            if(usuario.vehiculosVenta.length > 0 ){
+                for(vehiculoV of usuario.vehiculosVenta){
+                    setVehiculoVenta(vehiculoV);
+                }
+            }
+        }
+    }
+}
+
 function ocultarInicio() {
     document.getElementById("carouselExampleDark").style.display = "none";
 }
@@ -107,6 +122,9 @@ function mostratMenuUsuario() {
     const contNavPills = document.getElementById("contNavPills");
 
     contNavPills.style.display = "";
+
+    vehiculosMenu(1);
+    vehiculosMenu(2);
 }
 
 function ocultarMenuUsuario() {
@@ -209,7 +227,7 @@ function cargarVehiculo() {
         setUsuarioLogueado(usuario);
         setUsuario(usuario);
         menu_usuario();
-        vehiculosVenta(true);
+        vehiculosMenu(1);
         popUp.remove();
 
         Swal.fire({
@@ -231,4 +249,36 @@ function cargarVehiculo() {
 
         contTitulo.appendChild(subtitulo);
     }
+}
+
+function setVehiculoVenta(vehiculo){
+    if (vehiculo) {
+        let vehiculosV = getViehiculosVenta() ? getViehiculosVenta() : [];
+
+        vehiculosV.push(vehiculo);
+        localStorage.removeItem("vehiculosV");
+        localStorage.setItem("vehiculosV", JSON.stringify(vehiculosV));
+    }
+}
+
+function getViehiculosVenta(){
+    return JSON.parse(localStorage.getItem("vehiculosV"));
+}
+
+function mostrarCatalogo(){
+    const contCatalogo = document.createElement("div");
+
+    contCatalogo.className = "contV";
+    contCatalogo.id = "contCatalogo";
+
+    contCatalogo.appendChild(cards(3));
+    ocultarMenuUsuario();
+    ocultarInicio();
+
+    document.body.appendChild(contCatalogo);
+    
+}
+
+function OcultarCatalogo(){
+
 }

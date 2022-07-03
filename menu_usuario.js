@@ -12,52 +12,76 @@ function menu_usuario() {
   ocultarInicio();
 
   mostratMenuUsuario();
-
-  vehiculosVenta();
-
-  
-
 }
 
-function vehiculosVenta(recargar) {
-  const contVenta = document.getElementById("contVVenta");
+function vehiculosMenu(tipo) { // sirve tanto para cargar la pestaña de vehiculos de venta como para vehiculos comprados
 
-  contVenta && contVenta.remove();
+  let contenedor;
+  let contLabel ;
+  const contV = document.createElement("div");
+  const btnCargarV = widgetBoton("btnCargarV", function () { popUp('3'); }, "Cargar vehiculo");
+  const usuario = getUsuarioLogueado();
 
+  contV.className = "contV";
 
-    
+  switch (tipo) {
+    case 1:
+      contLabel = document.getElementById("pills-venta");
+      contenedor = document.getElementById("contVVenta");
 
-    const contLabel = document.getElementById("pills-venta");
-    const contVVenta = document.createElement("div");
-    const btnCargarV = widgetBoton("btnCargarV", function () { popUp('3'); }, "Cargar vehiculo");
-    const usuario = getUsuarioLogueado();
+      contV.id = "contVVenta";
+      if (usuario.vehiculosVenta.length > 0) {
+        contLabel.appendChild(cards(1));
+      }else{
+        contV.textContent = "No tiene autos para la venta. ";
+        contV.appendChild(btnCargarV);
+      }
+      break;
+    case 2:
+      contLabel = document.getElementById("pills-comprados");
+      contenedor = document.getElementById("contVCompra");
 
-    contVVenta.id = "contVVenta";
+      contV.id = "contVCompra";
+      if (usuario.compras.length > 0){
+        contLabel.appendChild(cards(2));
+      }else{
+        contV.textContent = "En este momento no hay vehiculos para la compra";
+      }
+      break;
+    case 3:
+      contV.id = "";
+      break;
+  }
 
-
-    if (usuario.vehiculosVenta.length > 0) {
-
-      contLabel.appendChild(cards(1));
-    } else {
-      contVVenta.textContent = "No tiene autos para la venta. ";
-
-      contVVenta.appendChild(btnCargarV);
-
-    }
-    contLabel.appendChild(contVVenta);
+  contenedor && contenedor.remove();
+  
+  contLabel.appendChild(contV);
 }
 
 function cards(tipo) {
-  const contenedorCards = document.getElementById("contCards");
-
-  contenedorCards && contenedorCards.remove();
-
+  
   const contCards = document.createElement("div");
   const filaCard = document.createElement("div");
   const usuario = getUsuarioLogueado();
-  const vehiculos = usuario.vehiculosVenta;
+  let vehiculos;
+  
+  switch (tipo) {
+    case 1:
+      vehiculos = usuario.vehiculosVenta;
+      contCards.id = "contCardsVent";
+      break;
+    case 2:
+      vehiculos = usuario.compras;
+      contCards.id = "contCardsComprado";
+      break
+    case 3:
+      vehiculos = getViehiculosVenta();
+      contCards.id = "contCardsCat";
+      break;
+  }
 
-  contCards.id = "contCards";
+  const contenedorCards = document.getElementById(contCards.id);
+  contenedorCards && contenedorCards.remove();
 
   filaCard.className = "row row-cols-1 row-cols-md-3 g-4"
 
@@ -69,7 +93,7 @@ function cards(tipo) {
     const contTextoCard = document.createElement("div");
     const tituloCard = document.createElement("h5");
     const textCard = document.createElement("div");
-    const aireAc = vehiculo.anioCreacion ? "si" : "no";
+    const aireAc = vehiculo.aireAcondicionado ? "si" : "no";
     const calefaccion = vehiculo.calefaccion ? "si" : "no";
     const caracteristicas = Object.values(vehiculo);
 
@@ -108,10 +132,20 @@ function cards(tipo) {
 
     columnaCard.className = "colCards";
 
+    
+
     contTextoCard.appendChild(tituloCard);
     contTextoCard.appendChild(textCard);
     contCard.appendChild(imgCard);
     contCard.appendChild(contTextoCard);
+
+    // if(tipo === 3){
+    //   const contBtnC = document.createElement("div");
+    //   const btnCatalogo = widgetBoton("btnCatalogo", "", "Comprar");
+
+    //   contBtnC.className = "contBtn";
+    // }
+
     columnaCard.appendChild(contCard);
     filaCard.appendChild(columnaCard);
   }
@@ -119,8 +153,5 @@ function cards(tipo) {
   contCards.appendChild(filaCard);
 
   return contCards;
-
-
-
 }
 
