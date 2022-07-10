@@ -15,8 +15,12 @@ function popUp(tipo) {
                 bodyPopUp = popUpCreacionUs();
                 break;
 
-            case "3"://crea el popUp de creacion de un nuevo usuario
+            case "3"://se carga un nuevo vehiculo para la venta
                 bodyPopUp = popUpCargarVehiculoV();
+                break;
+            case "4"://crea el popup para realizar la compra de un vehiculo
+                bodyPopUp = popUpCompra();
+                //ventPopUp.style.width = "1200px";
                 break;
         }
 
@@ -319,6 +323,42 @@ function popUpCargarVehiculoV() {
     return contCVehiculo;
 }
 
+function popUpCompra(){
+
+    const contPCompra = document.createElement("div");
+    const contVehiculoC = document.createElement("div");
+    const datosVehiculo = ["Marca: ","Modelo: ","Año de creacion: ","tipo: ","","",];
+
+    const datoText = document.createElement("div");
+
+    return contPCompra;
+}
+
+// const contPlanes = document.createElement("div");
+    // const planes = 
+
+    // contPlanes.className = "contPlanes";
+
+    // for(let i = 0; i<4; i++){
+    //     const contPlan = document.createElement("div");
+    //     const contTitulo = document.createElement("div");
+    //     const titulo = document.createElement("spam");
+
+    //     contPlan.className = "contPlan";
+    //     contPlan.style.marginRight = "10px";
+
+    //     contTitulo.className = "contPlan contTituloCom";
+    
+    //     titulo.className = "tituloPCompra";
+    //     titulo.textContent = "80/20";
+    
+    //     contTitulo.appendChild(titulo);
+    //     contPlan.appendChild(contTitulo);
+    //     contPlanes.appendChild(contPlan);
+    // }
+    
+    // contPCompra.appendChild(contPlanes);
+
 function widgetIText(type, id){
     const inputDato = document.createElement("input");
 
@@ -370,7 +410,9 @@ function widgetBoton(id, onClick, texto){
     boton.className = "btn btn-outline-primary";
     boton.type = "button";
     boton.textContent = texto;
-    boton.addEventListener("click", onClick);
+
+    onClick != "" && boton.addEventListener("click", onClick);
 
     return boton;
 }
+

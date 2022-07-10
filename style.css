@@ -10,7 +10,7 @@
 }
 
 .btnLoginContainer{
-    width: 40%;
+    width: 25%;
     display: flex;
     justify-content: flex-end;
 }
@@ -332,5 +332,27 @@
 .contBtn{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
 }
+
+.contPlan{
+    display: flex;
+    flex-direction: column;
+    background-color: blue;
+}
+
+.contPlanes{
+    display: flex;
+    flex-direction: row;
+}
+
+.contTituloCom{
+    justify-content: center;
+}
+
+.tituloPCompra{
+    font-size: 45px;
+}
+

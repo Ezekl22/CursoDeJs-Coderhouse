@@ -1,4 +1,3 @@
-const interes = 0.30; 
 class Vehiculo{
     constructor (marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado){
         this.marca = marca;
@@ -11,17 +10,5 @@ class Vehiculo{
         this.cantPuertas = cantPuertas;
         this.precioContado = precioContado;
     }
-
-    precioFinanciado(cantCuotas){
-        return this.valorCuota(cantCuotas) * cantCuotas;
-    }
-
-    valorCuota(cantCuotas){
-        return (this.precioContado / cantCuotas) + (this.precioContado * (1 * interes / cantCuotas));
-    }
-
-    // refinanciarCuota(){
-        
-    // }
 
 }

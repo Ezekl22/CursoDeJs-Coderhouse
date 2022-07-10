@@ -139,12 +139,15 @@ function cards(tipo) {
     contCard.appendChild(imgCard);
     contCard.appendChild(contTextoCard);
 
-    // if(tipo === 3){
-    //   const contBtnC = document.createElement("div");
-    //   const btnCatalogo = widgetBoton("btnCatalogo", "", "Comprar");
+    if(tipo === 3){
+      const contBtnC = document.createElement("div");
+      const btnCatalogo = widgetBoton("btnCatalogo", "", "Comprar");
 
-    //   contBtnC.className = "contBtn";
-    // }
+      contBtnC.className = "contBtn";
+
+      contBtnC.appendChild(btnCatalogo);
+      contCard.appendChild(contBtnC);
+    }
 
     columnaCard.appendChild(contCard);
     filaCard.appendChild(columnaCard);

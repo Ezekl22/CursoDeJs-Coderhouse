@@ -19,10 +19,6 @@ class usuario{
         this.compras.push(compra);
     }
 
-    setVehiculoVenta(vehiculo){
-        this.vehiculosVenta.push(vehiculo);
-    }
-
     getCatFiscal(){
         return this.categoriaFiscal;
     }
