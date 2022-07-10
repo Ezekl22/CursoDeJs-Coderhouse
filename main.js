@@ -2,7 +2,7 @@
 let eleccionNoValida = false;
 let salir = false;
 const admin = new usuario("admin", "1234", "Administrador", "Administrador", "99", "exento")
-  
+const URL = "https://62ca161fd9ead251e8c3ec09.mockapi.io/usuarios";
 checkLogin("inicio");
 
 //creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
@@ -12,10 +12,10 @@ recargarVehiculosCookie();
 
 function recargarVehiculosCookie(){
     localStorage.removeItem("vehiculosV");
-    for(usuario of getUsuarios()){
+    for(let usuario of getUsuarios()){
         if (usuario.vehiculosVenta){
             if(usuario.vehiculosVenta.length > 0 ){
-                for(vehiculoV of usuario.vehiculosVenta){
+                for(let vehiculoV of usuario.vehiculosVenta){
                     setVehiculoVenta(vehiculoV);
                 }
             }
@@ -82,6 +82,7 @@ function getUsuarios() {
 }
 
 function setUsuario(usuario) {
+    const usuarioNuevo = usuario;
     if (usuario) {
         let usuarios = getUsuarios() ? getUsuarios() : [];
 
@@ -92,8 +93,15 @@ function setUsuario(usuario) {
         usuarios.push(usuario);
         localStorage.removeItem("usuarios");
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        setearUsuarioServidor(URL,usuarioNuevo);
     }
+
+
 }
+
+const setearUsuarioServidor = (URL,Usuario) =>{
+     fetch(URL,{method:'POST',body: JSON.stringify(Usuario)})
+ }
 
 function getUsuarioLogueado() {
     return JSON.parse(localStorage.getItem("usuarioLog"));
@@ -279,6 +287,37 @@ function mostrarCatalogo(){
     
 }
 
-function OcultarCatalogo(){
+function valorPlanCuota(plan,valorVehiculo, cantCuotas){
+    
+    const valorTotal = valorPlan(plan,valorVehiculo, cantCuotas);
+    return valorTotal / cantCuotas;
+}
 
+function valorPlan(plan,valorVehiculo, cantCuotas){
+    const interesBase = 0.30;
+
+    // este calculo se realiza para aumentar el interes un 4% 3 cuotas.
+    // Ejemplo: si son 6 cuotas el interes es del 38%, pero para 12 cuotas el interes es de 46%
+    const interes = interesBase +((cantCuotas/3) * 4); 
+    let valorBase;
+
+    switch (plan) {
+        case "1": // plan 80/20
+            valorBase = valorVehiculo * 0.8;
+            break;
+        case "2": // plan 70/30
+            valorBase = valorVehiculo * 0.7;
+            break;
+        default:
+            valorBase = valorVehiculo;
+            break;
+    }
+
+    return valorBase + (valorBase * interes);
+}
+
+function OcultarCatalogo(){
+    const contCatalogo = document.getElementById("contCatalogo");
+
+    contCatalogo.remove();
 }
