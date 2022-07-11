@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "email": "admin@gmail.com",
+        "contrasenia": "1234",
+        "nombre": "admi",
+        "apellido": "nistrador",
+        "edad": 99,
+        "categoriaFiscal": "Responsable inscripto",
+        "vehiculosVenta": [],
+        "compras":[]
+    },
+    {
+        "id": 2,
+        "email": "ezequiel@gmail.com",
+        "contrasenia": "1234",
+        "nombre": "Ezequiel",
+        "apellido": "Centurion",
+        "edad": 28,
+        "categoriaFiscal": "Monostributista",
+        "vehiculosVenta": [],
+        "compras":[]
+    },
+    {
+        "id": 3,
+        "email": "maria@gmail.com",
+        "contrasenia": "1234",
+        "nombre": "Maria",
+        "apellido": "Fernandez",
+        "edad": 52,
+        "categoriaFiscal": "Consumidor final",
+        "vehiculosVenta": [],
+        "compras":[]
+    },
+    {
+        "id": 4,
+        "email": "carlos@gmail.com",
+        "contrasenia": "1234",
+        "nombre": "Carlos",
+        "apellido": "Perez",
+        "edad": 23,
+        "categoriaFiscal": "Consumidor final",
+        "vehiculosVenta": [],
+        "compras":[]
+    }
+]

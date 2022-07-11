@@ -1,14 +1,27 @@
 
 let eleccionNoValida = false;
 let salir = false;
-const admin = new usuario("admin", "1234", "Administrador", "Administrador", "99", "exento")
-const URL = "https://62ca161fd9ead251e8c3ec09.mockapi.io/usuarios";
+//const admin = new usuario("admin", "1234", "Administrador", "Administrador", "99", "exento")
+const URL = `DB/Usuarios.json`;
 checkLogin("inicio");
 
-//creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
-!getUsuarios() && setUsuario(admin);
+const cargarUsuariosDB = (URL) =>{
+    let usuarios;
+    fetch(URL)
+    .then((response) => response.json())
+    .then((data) => {
+        usuarios = data;
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-recargarVehiculosCookie();
+    })
+};
+//creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
+// const cargaInicial = () =>{
+
+// }
+!getUsuarios() && cargarUsuariosDB(URL);
+
+//recargarVehiculosCookie();
 
 function recargarVehiculosCookie(){
     localStorage.removeItem("vehiculosV");
@@ -43,10 +56,10 @@ function mostrarInicio() {
     document.getElementById("carouselExampleDark").style.display = "block";
 }
 
-function loginUsuario(email, contrasenia) {
+function loginUsuario() {
     const popUp = document.getElementById("ventPopUp");
-    let emailLog = email;
-    let contraseniaLog = contrasenia;
+    let emailLog = document.getElementById("correoTxtP").value;
+    let contraseniaLog = document.getElementById("contraTxtP").value;
     if (!(emailLog && contraseniaLog)) {
         emailLog = document.getElementById("correoTxtP").value;
         contraseniaLog = document.getElementById("contraTxtP").value;
@@ -81,8 +94,8 @@ function getUsuarios() {
     return JSON.parse(localStorage.getItem("usuarios"));
 }
 
+
 function setUsuario(usuario) {
-    const usuarioNuevo = usuario;
     if (usuario) {
         let usuarios = getUsuarios() ? getUsuarios() : [];
 
@@ -93,15 +106,8 @@ function setUsuario(usuario) {
         usuarios.push(usuario);
         localStorage.removeItem("usuarios");
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        setearUsuarioServidor(URL,usuarioNuevo);
     }
-
-
 }
-
-const setearUsuarioServidor = (URL,Usuario) =>{
-     fetch(URL,{method:'POST',body: JSON.stringify(Usuario)})
- }
 
 function getUsuarioLogueado() {
     return JSON.parse(localStorage.getItem("usuarioLog"));
