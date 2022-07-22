@@ -1,7 +1,7 @@
 
 let eleccionNoValida = false;
 let salir = false;
-//const admin = new usuario("admin", "1234", "Administrador", "Administrador", "99", "exento")
+
 const URL = `DB/Usuarios.json`;
 checkLogin("inicio");
 
@@ -12,16 +12,10 @@ const cargarUsuariosDB = (URL) =>{
     .then((data) => {
         usuarios = data;
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
-
     })
 };
-//creo un usuario root para no tener que estar creando todo el tiempo una cuenta 
-// const cargaInicial = () =>{
 
-// }
 !getUsuarios() && cargarUsuariosDB(URL);
-
-//recargarVehiculosCookie();
 
 function recargarVehiculosCookie(){
     localStorage.removeItem("vehiculosV");
@@ -36,11 +30,11 @@ function recargarVehiculosCookie(){
     }
 }
 
-function ocultarInicio() {
+const ocultarInicio = () =>{
     document.getElementById("carouselExampleDark").style.display = "none";
 }
 
-function cerrarSesion() {
+const cerrarSesion = () =>{
     localStorage.removeItem("usuarioLog");
     ocultarMenuUsuario();
     mostrarInicio();
@@ -48,10 +42,11 @@ function cerrarSesion() {
 
 function mostrarInicio() {
     const menuUsuario = document.getElementById("contMnUsuario");
-
-    if (menuUsuario) {
+    
+    if (menuUsuario)
         menuUsuario.remove();
-    }
+
+    ocultarCatalogo();
     ocultarMenuUsuario();
     document.getElementById("carouselExampleDark").style.display = "block";
 }
@@ -85,6 +80,8 @@ function loginUsuario() {
         setUsuarioLogueado(usuario);
 
         popUp.remove();
+
+        recargarVehiculosCookie();
 
         menu_usuario();
     }
@@ -139,12 +136,11 @@ function mostratMenuUsuario() {
 
     vehiculosMenu(1);
     vehiculosMenu(2);
+    miPerfilMenu();
 }
 
-function ocultarMenuUsuario() {
-
+const ocultarMenuUsuario = () =>{
     const contNavPills = document.getElementById("contNavPills");
-
     contNavPills.style.display = "none";
 }
 
@@ -200,7 +196,8 @@ function checkLogin(accion) {
                 break;
             case "2":// muesto el menu de usuario
                 ocultarInicio();
-                menu_usuario(usuario);
+                ocultarCatalogo();
+                menu_usuario();
                 break;
 
             case "inicio":// muesto el menu de usuario
@@ -209,7 +206,8 @@ function checkLogin(accion) {
 
             default: //solo muestro el menu de usuario
                 ocultarInicio();
-                menu_usuario(usuario);
+                menu_usuario();
+                ocultarCatalogo();
                 break;
         }
     } else {
@@ -225,8 +223,8 @@ function cargarVehiculo() {
     const modelo = document.getElementById("ModeloCV").value;
     const anioCreacion = document.getElementById("AnioCV").value;
     const tipo = document.getElementById("selTipoVehiculo").value;
-    const aireAcondicionado = document.getElementById("aireChek").value;
-    const calefaccion = document.getElementById("calefChek").value;
+    const aireAcondicionado = document.getElementById("aireChek").checked === true ? "si" : "no";
+    const calefaccion = document.getElementById("calefChek").checked === true ? "si" : "no";
     const tipoDireccion = document.getElementById("selTipoDir").value;
     const cantPuertas = document.getElementById("CantPuertasCV").value;
     const precioContado = document.getElementById("precioVInput").value;
@@ -234,7 +232,8 @@ function cargarVehiculo() {
 
 
     if (datosCorrectos) {
-        const vehiculo = new Vehiculo(marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado);
+        const {id:usuarioId} = usuario;
+        const vehiculo = new Vehiculo(marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado, usuarioId);
         const popUp = document.getElementById("ventPopUp");
 
         usuario.vehiculosVenta.push(vehiculo);
@@ -250,7 +249,6 @@ function cargarVehiculo() {
             title: 'Su vehiculo se a cargado correctamente',
             showConfirmButton: false,
             width: 250,
-            height:150,
             timer: 1500
         })
 
@@ -275,11 +273,11 @@ function setVehiculoVenta(vehiculo){
     }
 }
 
-function getViehiculosVenta(){
+const getViehiculosVenta = ()=>{
     return JSON.parse(localStorage.getItem("vehiculosV"));
 }
 
-function mostrarCatalogo(){
+const mostrarCatalogo = () =>{
     const contCatalogo = document.createElement("div");
 
     contCatalogo.className = "contV";
@@ -290,7 +288,11 @@ function mostrarCatalogo(){
     ocultarInicio();
 
     document.body.appendChild(contCatalogo);
-    
+}
+
+const ocultarCatalogo = ()=>{
+    const catalogo = document.getElementById("contCardsCat");
+    catalogo && catalogo.remove();
 }
 
 function valorPlanCuota(plan,valorVehiculo, cantCuotas){
@@ -320,10 +322,4 @@ function valorPlan(plan,valorVehiculo, cantCuotas){
     }
 
     return valorBase + (valorBase * interes);
-}
-
-function OcultarCatalogo(){
-    const contCatalogo = document.getElementById("contCatalogo");
-
-    contCatalogo.remove();
 }

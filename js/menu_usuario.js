@@ -10,7 +10,7 @@ function menu_usuario() {
   document.body.appendChild(contMnUsuario);
 
   ocultarInicio();
-
+  ocultarCatalogo();
   mostratMenuUsuario();
 }
 
@@ -18,6 +18,7 @@ function vehiculosMenu(tipo) { // sirve tanto para cargar la pestaña de vehicul
 
   let contenedor;
   let contLabel ;
+  let contenedorCards;
   const contV = document.createElement("div");
   const btnCargarV = widgetBoton("btnCargarV", function () { popUp('3'); }, "Cargar vehiculo");
   const usuario = getUsuarioLogueado();
@@ -30,6 +31,8 @@ function vehiculosMenu(tipo) { // sirve tanto para cargar la pestaña de vehicul
       contenedor = document.getElementById("contVVenta");
 
       contV.id = "contVVenta";
+      contenedorCards = document.getElementById("contCardsVent");
+      contenedorCards != null && contenedorCards.remove();
       if (usuario.vehiculosVenta.length > 0) {
         contLabel.appendChild(cards(1));
       }else{
@@ -42,10 +45,12 @@ function vehiculosMenu(tipo) { // sirve tanto para cargar la pestaña de vehicul
       contenedor = document.getElementById("contVCompra");
 
       contV.id = "contVCompra";
+      contenedorCards = document.getElementById("contCardsComprado");
+      contenedorCards != null && contenedorCards.remove();
       if (usuario.compras.length > 0){
         contLabel.appendChild(cards(2));
       }else{
-        contV.textContent = "En este momento no hay vehiculos para la compra";
+        contV.textContent = "No posee vehiculos comprados";
       }
       break;
     case 3:
@@ -58,8 +63,23 @@ function vehiculosMenu(tipo) { // sirve tanto para cargar la pestaña de vehicul
   contLabel.appendChild(contV);
 }
 
-function cards(tipo) {
+const miPerfilMenu =()=>{
+  const contLabel = document.getElementById("pills-perfil");
+  const contenedor = document.createElement("div");
+  const contText = document.createElement("input");
+  const datosPerfil = ["Nombre: ","Apellido: ", "Edad: ", "Email: ", "Contraseña: ", "Categoria fiscal: "];
   
+  for (const datoPerfil of datosPerfil) {
+
+    let contText;
+    datoPerfil == "Categoria fiscal: "? contText = document.createElement("input"): contText = widgetSelect("selCatFiscal");
+    //const contText = document.createElement("input");
+  }
+  contenedor.appendChild(contText);
+  contLabel.appendChild(contenedor);
+}
+
+const cards=(tipo)=> {
   const contCards = document.createElement("div");
   const filaCard = document.createElement("div");
   const usuario = getUsuarioLogueado();
@@ -81,7 +101,7 @@ function cards(tipo) {
   }
 
   const contenedorCards = document.getElementById(contCards.id);
-  contenedorCards && contenedorCards.remove();
+  contenedorCards != null && contenedorCards.remove();
 
   filaCard.className = "row row-cols-1 row-cols-md-3 g-4"
 
@@ -93,11 +113,11 @@ function cards(tipo) {
     const contTextoCard = document.createElement("div");
     const tituloCard = document.createElement("h5");
     const textCard = document.createElement("div");
-    const aireAc = vehiculo.aireAcondicionado ? "si" : "no";
-    const calefaccion = vehiculo.calefaccion ? "si" : "no";
+    const aireAc = vehiculo.aireAcondicionado;
+    const calefaccion = vehiculo.calefaccion;
     const caracteristicas = Object.values(vehiculo);
 
-    for (let i = 1; i < caracteristicas.length; i++) {
+    for (let i = 1; i < caracteristicas.length -1; i++) {
       const textCaract = document.createElement("spam");
 
       textCaract.className = "textCaract";
@@ -133,7 +153,32 @@ function cards(tipo) {
     columnaCard.className = "colCards";
 
     
+    if(tipo === 1){
+      const contBtnsSup = document.createElement("div");
+      const btnEliminar = document.createElement("button");
+      const imgEliminar = document.createElement("img");
+      const btnEditar = document.createElement("button");
+      const imgEditar = document.createElement("img");
 
+      imgEliminar.src = "./img/iconEliminar.png";
+      imgEliminar.className = "iconsCards";
+
+      imgEditar.src = "./img/iconEditar.png";
+      imgEditar.className = "iconsCards";
+
+      contBtnsSup.className = "widthMaximo contenidoDerecha"
+
+      btnEliminar.className = "btnCardSup btn btn-danger contenidoCentro";
+      btnEliminar.style.marginRight = "3px";
+
+      btnEditar.className = "btnCardSup btn btn-info contenidoCentro";
+
+      btnEliminar.appendChild(imgEliminar);
+      btnEditar.appendChild(imgEditar);
+      contBtnsSup.appendChild(btnEliminar);
+      contBtnsSup.appendChild(btnEditar);
+      contCard.appendChild(contBtnsSup);
+    }
     contTextoCard.appendChild(tituloCard);
     contTextoCard.appendChild(textCard);
     contCard.appendChild(imgCard);

@@ -324,40 +324,27 @@ function popUpCargarVehiculoV() {
 }
 
 function popUpCompra(){
-
+    const datosSelect = ["80/20","70/30","100%","En efectivo"];
     const contPCompra = document.createElement("div");
     const contVehiculoC = document.createElement("div");
     const datosVehiculo = ["Marca: ","Modelo: ","Año de creacion: ","tipo: ","","",];
+    const comboPlan = widgetSelect(datosSelect,"comboPlan");
+    const datosText = document.createElement("div");
 
-    const datoText = document.createElement("div");
+    for(let datoVehiculo of datosVehiculo){
+        const texto = document.createElement("spam");
 
+        texto.textContent = datoVehiculo;
+
+        datosText.appendChild(texto);
+    }
+
+    contVehiculoC.appendChild(datosText);
+    contVehiculoC.appendChild(comboPlan);
+    contPCompra.appendChild(contVehiculoC);
+    
     return contPCompra;
 }
-
-// const contPlanes = document.createElement("div");
-    // const planes = 
-
-    // contPlanes.className = "contPlanes";
-
-    // for(let i = 0; i<4; i++){
-    //     const contPlan = document.createElement("div");
-    //     const contTitulo = document.createElement("div");
-    //     const titulo = document.createElement("spam");
-
-    //     contPlan.className = "contPlan";
-    //     contPlan.style.marginRight = "10px";
-
-    //     contTitulo.className = "contPlan contTituloCom";
-    
-    //     titulo.className = "tituloPCompra";
-    //     titulo.textContent = "80/20";
-    
-    //     contTitulo.appendChild(titulo);
-    //     contPlan.appendChild(contTitulo);
-    //     contPlanes.appendChild(contPlan);
-    // }
-    
-    // contPCompra.appendChild(contPlanes);
 
 function widgetIText(type, id){
     const inputDato = document.createElement("input");
@@ -377,7 +364,7 @@ function widgetCheck(id) {
 
     inputCheck.type = "checkbox";
     inputCheck.className = "form-check-input";
-    inputCheck.value = "";
+    inputCheck.checked = false;
     inputCheck.id = id;
 
     contCheck.appendChild(inputCheck);

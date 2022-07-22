@@ -356,3 +356,29 @@
     font-size: 45px;
 }
 
+.btnCardSup{
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+}
+
+.widthMaximo{
+    width: 100%;
+}
+
+.contenidoDerecha{
+    display: flex;
+    justify-content: right;
+    margin: 5px 15px 0px 0px;
+}
+
+.iconsCards{
+    width: 15px;
+    height: 15px;
+}
+
+.contenidoCentro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
