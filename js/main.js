@@ -5,6 +5,8 @@ let salir = false;
 const URL = `DB/Usuarios.json`;
 checkLogin("inicio");
 
+
+
 const cargarUsuariosDB = (URL) =>{
     let usuarios;
     fetch(URL)
@@ -37,6 +39,7 @@ const ocultarInicio = () =>{
 const cerrarSesion = () =>{
     localStorage.removeItem("usuarioLog");
     ocultarMenuUsuario();
+    cambiarBtnLogin();
     mostrarInicio();
 }
 
@@ -76,13 +79,10 @@ function loginUsuario() {
             subtitulo.appendChild(textError);
         }
     } else {
-
         setUsuarioLogueado(usuario);
-
         popUp.remove();
-
         recargarVehiculosCookie();
-
+        cambiarBtnLogin();
         menu_usuario();
     }
 }
@@ -194,20 +194,14 @@ function checkLogin(accion) {
             case "1":
                 popUp('3');
                 break;
-            case "2":// muesto el menu de usuario
-                ocultarInicio();
-                ocultarCatalogo();
-                menu_usuario();
-                break;
-
             case "inicio":// muesto el menu de usuario
-
+                cambiarBtnLogin();
                 break;
-
             default: //solo muestro el menu de usuario
+                cambiarBtnLogin();
                 ocultarInicio();
-                menu_usuario();
                 ocultarCatalogo();
+                menu_usuario();
                 break;
         }
     } else {
@@ -215,6 +209,12 @@ function checkLogin(accion) {
     }
 
 }
+function cambiarBtnLogin(){
+    const usuario = getUsuarioLogueado();
+    const loginBtn = document.getElementById("loginBtnTxt");
+    loginBtn.textContent = usuario ? usuario.nombre : "Ingresar";
+}
+
 
 function cargarVehiculo() {
 
