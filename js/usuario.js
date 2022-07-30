@@ -1,7 +1,7 @@
 class usuario{
 
     constructor (email, contrasenia, nombre, apellido, edad, categoriaFiscal){
-        this.id = usuarioId();
+        this.id = cargarId(1);
         this.email = email;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
@@ -10,12 +10,6 @@ class usuario{
         this.categoriaFiscal = categoriaFiscal;
         this.vehiculosVenta = [];
         this.compras = [];
-    }
-
-    usuarioId = ()=>{
-        let idMayor = 0;
-        getUsuarios().forEach(usuario => idMayor = usuario.id > idMayor && usuario.id);
-        return idMayor + 1;
     }
 
     getEsMayor(){

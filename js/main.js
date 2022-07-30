@@ -21,11 +21,18 @@ const cargarUsuariosDB = (URL) =>{
 
 function recargarVehiculosCookie(){
     localStorage.removeItem("vehiculosV");
+    const usuarioLog = getUsuarioLogueado();
+    const vehiculosUsLog = usuarioLog ? usuarioLog.vehiculosVenta : [];
+
     for(let usuario of getUsuarios()){
         if (usuario.vehiculosVenta){
             if(usuario.vehiculosVenta.length > 0 ){
                 for(let vehiculoV of usuario.vehiculosVenta){
+                    if (vehiculosUsLog.length > 0 && vehiculosUsLog[0].id == vehiculoV.id)
+                        break;
                     setVehiculoVenta(vehiculoV);
+                        
+                    
                 }
             }
         }
@@ -129,7 +136,6 @@ function loginCorrecto(email, contrasenia) {
 }
 
 function mostratMenuUsuario() {
-
     const contNavPills = document.getElementById("contNavPills");
 
     contNavPills.style.display = "";
@@ -153,14 +159,11 @@ function crearUsuario() {
     const edad = document.getElementById("textEdad").value;
     const categoriaFiscal = document.getElementById("selCatFiscalP").value;
 
-
     if (email && contrasenia && nombre && apellido && edad && categoriaFiscal) {
 
         const popUp = document.getElementById("ventPopUp");
         const newUsuario = new usuario(email, contrasenia, nombre, apellido, edad, categoriaFiscal);
-
         
-
         popUp.remove();
 
         localStorage.setItem("usuarioLog", JSON.stringify(newUsuario));
@@ -168,8 +171,6 @@ function crearUsuario() {
         setUsuario(newUsuario);
 
         menu_usuario();
-
-        setUsuario(newUsuario);
 
     } else if (!document.getElementById("mensajeError")) {
 
@@ -209,6 +210,7 @@ function checkLogin(accion) {
     }
 
 }
+
 function cambiarBtnLogin(){
     const usuario = getUsuarioLogueado();
     const loginBtn = document.getElementById("loginBtnTxt");
@@ -265,7 +267,7 @@ function cargarVehiculo() {
 
 function setVehiculoVenta(vehiculo){
     if (vehiculo) {
-        let vehiculosV = getViehiculosVenta() ? getViehiculosVenta() : [];
+        let vehiculosV = getVehiculosVenta() ? getVehiculosVenta() : [];
 
         vehiculosV.push(vehiculo);
         localStorage.removeItem("vehiculosV");
@@ -273,17 +275,29 @@ function setVehiculoVenta(vehiculo){
     }
 }
 
-const getViehiculosVenta = ()=>{
+const getVehiculosVenta = ()=>{
     return JSON.parse(localStorage.getItem("vehiculosV"));
 }
 
 const mostrarCatalogo = () =>{
+    const contMensaje = document.getElementById("contMensajeC");
+    contMensaje && contMensaje.remove();
     const contCatalogo = document.createElement("div");
+    const contMensajeC = document.createElement("div");
+
+    contMensajeC.textContent = "En este momento no hay vehiculos para la compra";
+    contMensajeC.id = "contMensajeC";
 
     contCatalogo.className = "contV";
     contCatalogo.id = "contCatalogo";
 
-    contCatalogo.appendChild(cards(3));
+    recargarVehiculosCookie();
+    if (getVehiculosVenta()) {
+        contCatalogo.appendChild(cards(3));
+    }else{
+        contCatalogo.appendChild(contMensajeC);
+    }
+    
     ocultarMenuUsuario();
     ocultarInicio();
 
@@ -292,6 +306,8 @@ const mostrarCatalogo = () =>{
 
 const ocultarCatalogo = ()=>{
     const catalogo = document.getElementById("contCardsCat");
+    const contMensaje = document.getElementById("contMensajeC");
+    contMensaje && contMensaje.remove();
     catalogo && catalogo.remove();
 }
 
@@ -322,4 +338,115 @@ function valorPlan(plan,valorVehiculo, cantCuotas){
     }
 
     return valorBase + (valorBase * interes);
+}
+
+const editar = (id)=>{
+    let text;
+    const select = document.querySelector(`#${id} select`);
+    const boton = document.querySelector(`#${id} button`);
+        
+    text = id != "wdg3" && document.querySelector(`#${id} input`);
+    if(text)
+        text.hasAttribute("disabled")? text.removeAttribute("disabled"): text.setAttribute("disabled","");
+    if(select)
+        select.hasAttribute("disabled") ? select.removeAttribute("disabled") : select.setAttribute("disabled","");
+    if(select ? select.hasAttribute("disabled") : false || text ? text.hasAttribute("disabled"): false){
+        boton.textContent = "Editar"
+        editarUsuario(id);
+    }else{
+        boton.textContent = "Guardar";
+    }
+}
+
+const editarUsuario = (id)=>{
+    const selectValue = (id == "wdg3" || id == "wdgEmail") && document.querySelector(`#${id} select`).value;
+    const inputTextValue = id != "wdg3" && document.querySelector(`#${id} input`).value;
+    const usuario= getUsuarioLogueado();
+    const datoSelect = selectValue && id == "wdg3" ? selectValue : `${inputTextValue}@${selectValue}`;
+    let datoModificado = false;
+    switch (id) {
+        case "wdg0": //Nombre
+            if(usuario.nombre != inputTextValue){
+                usuario.nombre = inputTextValue;
+                datoModificado = true;
+            }
+            break;
+        case "wdg1"://apellido
+            if(usuario.apellido != inputTextValue){
+                usuario.apellido = inputTextValue;
+                datoModificado = true;
+            }
+            break;
+        case "wdg2"://edad
+            if(usuario.edad != inputTextValue){
+                usuario.edad = inputTextValue;
+                datoModificado = true;
+            }
+            break;
+        case "wdg3"://categoria fiscal
+            if(usuario.categoriaFiscal != datoSelect){
+                usuario.categoriaFiscal = datoSelect;
+                datoModificado = true;
+            }
+            break;
+        case "wdgEmail"://Email
+            if(usuario.email != datoSelect){
+                usuario.email = datoSelect;
+                datoModificado = true;
+            }
+            break;
+        case "wdg5"://contraseña
+            if(usuario.contrasenia != inputTextValue){
+                usuario.contrasenia = inputTextValue;
+                datoModificado = true;
+            }
+            break;
+    }
+    if(datoModificado){
+        setUsuario(usuario);
+        setUsuarioLogueado(usuario);
+    }
+}
+
+const cargarId = (tipo) =>{
+    let idMayor = 0;
+
+        switch (tipo) {
+            case 1:
+                const usuarios = getUsuarios();
+                usuarios && usuarios.forEach(usuario => idMayor = usuario.id > idMayor ? usuario.id : idMayor);
+                break;
+            case 2:
+                const vehiculos = getVehiculosVenta();
+                vehiculos && vehiculos.forEach(vehiculo => idMayor = vehiculo.id > idMayor ? vehiculo.id : idMayor);
+                break;
+            default:
+                    mensajeError("tipo erroneo al intentar cargar el id");
+                break;
+        }
+
+    return idMayor + 1;
+}
+
+function comprar (vehiculo){
+    const usuarioLog = getUsuarioLogueado();
+    const usuario = getUsuario(vehiculo.duenioId);
+    const popUp = document.getElementById("ventPopUp");
+
+
+    indice = usuario.vehiculosVenta.findIndex(vehiculoU => vehiculoU.id == vehiculo.id);
+    usuario.vehiculosVenta.splice(indice,1);
+    usuarioLog.compras.push(vehiculo);
+
+    setUsuario(usuarioLog);
+    setUsuario(usuario);
+    setUsuarioLogueado(usuarioLog);
+    popUp.remove();
+    menu_usuario();
+}
+
+function getUsuario (usuarioId){
+    const usuarios = getUsuarios();
+    const usuario = usuarios.find(usuario => usuario.id == usuarioId);
+    return usuario
 }

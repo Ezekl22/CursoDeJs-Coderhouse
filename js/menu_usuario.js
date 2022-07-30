@@ -63,20 +63,59 @@ function vehiculosMenu(tipo) { // sirve tanto para cargar la pestaña de vehicul
   contLabel.appendChild(contV);
 }
 
-const miPerfilMenu =()=>{
+function miPerfilMenu(){
   const contLabel = document.getElementById("pills-perfil");
-  const contenedor = document.createElement("div");
-  const contText = document.createElement("input");
-  const datosPerfil = ["Nombre: ","Apellido: ", "Edad: ", "Email: ", "Contraseña: ", "Categoria fiscal: "];
   
-  for (const datoPerfil of datosPerfil) {
+  contLabel.appendChild(cargarMiPerfil());
+}
 
-    let contText;
-    datoPerfil == "Categoria fiscal: "? contText = document.createElement("input"): contText = widgetSelect("selCatFiscal");
-    //const contText = document.createElement("input");
+function cargarMiPerfil(){
+  const miPerfil = document.getElementById("contPerfil")
+  const datosPerfil = ["Nombre: ","Apellido: ", "Edad: ", "Categoria fiscal: ", "Email: ", "Contraseña: "];
+  const opcionesCatF = ["Monotributista", "Responsable inscripto", "Exento", "Consumidor final"];
+  const {nombre, apellido, edad, categoriaFiscal, email, contrasenia} = getUsuarioLogueado();
+  const datosUsuario = [nombre, apellido, edad, categoriaFiscal, email, contrasenia];
+  const contenedor = document.createElement("div");
+  const contenedorDatos = document.createElement("div");
+  const contenedorElemementos = document.createElement("div");
+  const nombreEmail = email.slice(0, email.indexOf("@"));
+  const extencionEmail = email.slice(email.indexOf("@")+1,email.length );
+
+  contenedorElemementos.className = "contElementosP";
+
+  miPerfil && miPerfil.remove();
+
+  contenedor.className = "contenidoCentro widthMaximo";
+  contenedor.id = "contPerfil";
+  contenedorDatos.className = "contMiPerfil";
+
+  for ( let i = 0; i < datosPerfil.length; i++) {
+    const contText = document.createElement("div");
+    const id = "wdg" + i;
+    let textPerfil;
+
+    switch (datosPerfil[i]) {
+      case "Categoria fiscal: ":
+        textPerfil = widgetSelectP(opcionesCatF, datosPerfil[i], id);
+        break;
+      case "Contraseña: ":
+        textPerfil = widgetTextP(datosPerfil[i], datosUsuario[i],"password",id);
+        break;
+      case "Email: ":
+        textPerfil = widgetEmailP("wdgEmail", nombreEmail, extencionEmail);
+        break;
+      default:
+        textPerfil = widgetTextP(datosPerfil[i], datosUsuario[i],"text",id);
+        break;
+    }
+
+    contText.appendChild(textPerfil);
+    
+    contenedorElemementos.appendChild(contText);
   }
-  contenedor.appendChild(contText);
-  contLabel.appendChild(contenedor);
+  contenedorDatos.appendChild(contenedorElemementos);
+  contenedor.appendChild(contenedorDatos);
+  return contenedor;
 }
 
 const cards=(tipo)=> {
@@ -95,7 +134,7 @@ const cards=(tipo)=> {
       contCards.id = "contCardsComprado";
       break
     case 3:
-      vehiculos = getViehiculosVenta();
+      vehiculos = getVehiculosVenta();
       contCards.id = "contCardsCat";
       break;
   }
@@ -117,7 +156,7 @@ const cards=(tipo)=> {
     const calefaccion = vehiculo.calefaccion;
     const caracteristicas = Object.values(vehiculo);
 
-    for (let i = 1; i < caracteristicas.length -1; i++) {
+    for (let i = 1; i < caracteristicas.length -2; i++) {
       const textCaract = document.createElement("spam");
 
       textCaract.className = "textCaract";
@@ -186,7 +225,8 @@ const cards=(tipo)=> {
 
     if(tipo === 3){
       const contBtnC = document.createElement("div");
-      const btnCatalogo = widgetBoton("btnCatalogo", "", "Comprar");
+      const vehiculoId = vehiculo.id;
+      const btnCatalogo = widgetBoton("btnCatalogo", ()=>{popUp('4',vehiculoId);}, "Comprar");
 
       contBtnC.className = "contBtn";
 
@@ -203,3 +243,52 @@ const cards=(tipo)=> {
   return contCards;
 }
 
+const widgetTextP = (textLabel, text, tipo, id) =>{
+  const widgetContent = document.createElement("div");
+
+  widgetContent.className = "input-group mb-3";
+  widgetContent.id = id;
+  widgetContent.innerHTML = `<span class="input-group-text">${textLabel}</span>
+                            <input type="${tipo}" class="form-control" value="${text}" disabled>
+                            <button class="btn btn-outline-secondary" type="button" onclick="editar('${id}')">Editar</button>`;
+  return widgetContent;
+}
+
+const widgetSelectP =(opciones, texto, id)=>{
+  const contSelectP = document.createElement("div");
+
+  contSelectP.className = "input-group mb-3";
+  contSelectP.id = id;
+  let options = "";
+  for (let opcion of opciones) {
+    options += `<option>${opcion}</option>`
+  }
+
+  contSelectP.innerHTML = `<label class="input-group-text">${texto}</label>
+                          <select class="form-select" disabled>
+                          ${options}
+                          </select>
+                          <button class="btn btn-outline-secondary" onclick="editar('${id}')" type="button">Editar</button>`;
+  return contSelectP;
+}
+
+const widgetEmailP =(id, valorText, valorSelect)=>{
+
+  const contWidget = document.createElement("div");
+
+  contWidget.className = "input-group mb-3";
+  contWidget.id = id;
+
+  contWidget.innerHTML = `<span class="input-group-text">Email: </span>
+                          <input type="text" class="form-control" value="${valorText}" disabled>
+                          <span class="input-group-text">@</span>
+                          <select class="form-select" value="${valorSelect}" disabled>
+                            <option >gmail.com</option>
+                            <option >hotmail.com</option>
+                            <option >yahoo.com</option>
+                            <option >outlook.com</option>
+                            <option onclick="otraExtencion()">otro</option>
+                          </select>
+                          <button class="btn btn-outline-secondary" onclick="editar('${id}')" type="button" id="button-addon2">Editar</button>`
+  return contWidget;
+}
