@@ -1,6 +1,7 @@
 class usuario{
 
     constructor (email, contrasenia, nombre, apellido, edad, categoriaFiscal){
+        this.id = cargarId(1);
         this.email = email;
         this.contrasenia = contrasenia;
         this.nombre = nombre;

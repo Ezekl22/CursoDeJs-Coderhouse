@@ -1,4 +1,4 @@
-function popUp(tipo) {
+function popUp(tipo, vehiculoId) {
     if (!document.getElementById("ventPopUp")) {
         let bodyPopUp = "";
         const ventPopUp = document.createElement("section");
@@ -19,11 +19,10 @@ function popUp(tipo) {
                 bodyPopUp = popUpCargarVehiculoV();
                 break;
             case "4"://crea el popup para realizar la compra de un vehiculo
-                bodyPopUp = popUpCompra();
+                bodyPopUp = popUpCompra(vehiculoId);
                 //ventPopUp.style.width = "1200px";
                 break;
         }
-
 
         ventPopUp.className = "vtnModal";
         ventPopUp.id = "ventPopUp";
@@ -210,7 +209,7 @@ function popUpCargarVehiculoV() {
     const contPrecioV = document.createElement("div");
     const precioVText = document.createElement("spam");
     const precioVInput = document.createElement("input");
-    const btnCargarV = widgetBoton("btnCargarV",function(){cargarVehiculo()}, "Guardar");
+    const btnCargarV = widgetBoton("btnCargarV",function(){cargarVehiculo(); recargarVehiculosCookie();}, "Guardar");
     const btnCont = document.createElement("div");
 
     btnCargarV.style.width = "150px";
@@ -323,41 +322,38 @@ function popUpCargarVehiculoV() {
     return contCVehiculo;
 }
 
-function popUpCompra(){
-
+function popUpCompra(vehiculoId){
+    const vehiculo = getVehiculosVenta().find(vehiculo => vehiculo.id === vehiculoId);
     const contPCompra = document.createElement("div");
     const contVehiculoC = document.createElement("div");
-    const datosVehiculo = ["Marca: ","Modelo: ","Año de creacion: ","tipo: ","","",];
+    const datosTexto = ["Marca: ","Modelo: ","Año de creacion: ","tipo: ","Aire acondicionado: ","Calefaccion: ", "Tipo de dirección: ", "Cantidad de puertas: ", "Valor: "];
+    const datosText = document.createElement("div");
+    const comprarBtn = widgetBoton("comprarVBtn", ()=>{comprar(vehiculo);}, "Comprar");
+    const {marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado} = vehiculo;  
+    const datosVehiculos = [marca, modelo, anioCreacion, tipo, aireAcondicionado, calefaccion, tipoDireccion, cantPuertas, precioContado];
 
-    const datoText = document.createElement("div");
+    datosText.className = "contenidoCentro row";
 
+    for(let i = 0; i< datosTexto.length -1; i++){
+        const texto = document.createElement("spam");
+        const contDatos = document.createElement("id");
+        const datos = document.createElement("spam");
+
+        texto.textContent = datosTexto[i];
+
+        datos.textContent = datosVehiculos[i]
+
+        contDatos.appendChild(texto);
+        contDatos.appendChild(datos);
+        datosText.appendChild(contDatos);
+    }
+
+    contVehiculoC.appendChild(datosText);
+    contVehiculoC.appendChild(comprarBtn);
+    contPCompra.appendChild(contVehiculoC);
+    
     return contPCompra;
 }
-
-// const contPlanes = document.createElement("div");
-    // const planes = 
-
-    // contPlanes.className = "contPlanes";
-
-    // for(let i = 0; i<4; i++){
-    //     const contPlan = document.createElement("div");
-    //     const contTitulo = document.createElement("div");
-    //     const titulo = document.createElement("spam");
-
-    //     contPlan.className = "contPlan";
-    //     contPlan.style.marginRight = "10px";
-
-    //     contTitulo.className = "contPlan contTituloCom";
-    
-    //     titulo.className = "tituloPCompra";
-    //     titulo.textContent = "80/20";
-    
-    //     contTitulo.appendChild(titulo);
-    //     contPlan.appendChild(contTitulo);
-    //     contPlanes.appendChild(contPlan);
-    // }
-    
-    // contPCompra.appendChild(contPlanes);
 
 function widgetIText(type, id){
     const inputDato = document.createElement("input");
@@ -369,6 +365,16 @@ function widgetIText(type, id){
     return inputDato;
 }
 
+const widgetLabel = (texto, id, clase)=>{
+    const label = document.createElement("label");
+
+    label.className = clase ? clase : "label";
+    label.id = id;
+    label.textContent = texto;
+
+    return label;
+}
+
 function widgetCheck(id) {
     const contCheck = document.createElement("div");
     const inputCheck = document.createElement("input");
@@ -377,7 +383,7 @@ function widgetCheck(id) {
 
     inputCheck.type = "checkbox";
     inputCheck.className = "form-check-input";
-    inputCheck.value = "";
+    inputCheck.checked = false;
     inputCheck.id = id;
 
     contCheck.appendChild(inputCheck);
@@ -385,12 +391,13 @@ function widgetCheck(id) {
     return contCheck;
 }
 
-function widgetSelect(opciones, id){
+function widgetSelect(opciones, id, texto){
     const select = document.createElement("select");
 
     select.className = "form-select";
     select.id = id;
     select.setAttribute("aria-label", "Default select example");
+    select.textContent = texto ? texto : opciones[1];
 
     for (let opcion of opciones) {
         const opcionInput = document.createElement("option");
@@ -415,4 +422,6 @@ function widgetBoton(id, onClick, texto){
 
     return boton;
 }
+const popUpError = () =>{
 
+}
