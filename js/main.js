@@ -443,6 +443,7 @@ function comprar (vehiculo){
     setUsuarioLogueado(usuarioLog);
     popUp.remove();
     menu_usuario();
+    
 }
 
 function getUsuario (usuarioId){
