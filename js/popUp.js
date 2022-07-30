@@ -335,18 +335,16 @@ function popUpCompra(vehiculoId){
     datosText.className = "contenidoCentro row";
 
     for(let i = 0; i< datosTexto.length -1; i++){
-        const texto = document.createElement("spam");
-        const contDatos = document.createElement("id");
-        const datos = document.createElement("spam");
+        const widget = widgetTextPop(datosTexto[i], datosVehiculos[i], "text","");
+        const contDatos = document.createElement("div");
+        
+        contDatos.className = "contDatos";
 
-        texto.textContent = datosTexto[i];
-
-        datos.textContent = datosVehiculos[i]
-
-        contDatos.appendChild(texto);
-        contDatos.appendChild(datos);
+        contDatos.appendChild(widget);
         datosText.appendChild(contDatos);
     }
+
+    contVehiculoC.className = "contenidoCentro column";
 
     contVehiculoC.appendChild(datosText);
     contVehiculoC.appendChild(comprarBtn);
@@ -422,6 +420,13 @@ function widgetBoton(id, onClick, texto){
 
     return boton;
 }
-const popUpError = () =>{
 
-}
+const widgetTextPop = (textLabel, text, tipo, id) =>{
+    const widgetContent = document.createElement("div");
+  
+    widgetContent.className = "input-group mb-2";
+    widgetContent.id = id;
+    widgetContent.innerHTML = `<span class="input-group-text">${textLabel}</span>
+                              <input type="${tipo}" class="form-control" value="${text}" disabled>`;
+    return widgetContent;
+  }
