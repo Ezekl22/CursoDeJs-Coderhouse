@@ -342,12 +342,15 @@ function valorPlan(plan,valorVehiculo, cantCuotas){
 
 const editar = (id)=>{
     let text;
+    const text2 = document.querySelector(`#emailExt`);
     const select = document.querySelector(`#${id} select`);
     const boton = document.querySelector(`#${id} button`);
         
     text = id != "wdg3" && document.querySelector(`#${id} input`);
     if(text)
         text.hasAttribute("disabled")? text.removeAttribute("disabled"): text.setAttribute("disabled","");
+    if(id == "wdgEmail")
+        text2.hasAttribute("disabled")? text2.removeAttribute("disabled"): text2.setAttribute("disabled","");
     if(select)
         select.hasAttribute("disabled") ? select.removeAttribute("disabled") : select.setAttribute("disabled","");
     if(select ? select.hasAttribute("disabled") : false || text ? text.hasAttribute("disabled"): false){
@@ -359,8 +362,9 @@ const editar = (id)=>{
 }
 
 const editarUsuario = (id)=>{
-    const selectValue = (id == "wdg3" || id == "wdgEmail") && document.querySelector(`#${id} select`).value;
+    const selectValue = (id == "wdg3") && document.querySelector(`#${id} select`).value;
     const inputTextValue = id != "wdg3" && document.querySelector(`#${id} input`).value;
+    const extencionEmail = document.querySelector(`#${id} select`).value;
     const usuario= getUsuarioLogueado();
     const datoSelect = selectValue && id == "wdg3" ? selectValue : `${inputTextValue}@${selectValue}`;
     let datoModificado = false;
@@ -432,7 +436,6 @@ function comprar (vehiculo){
     const usuarioLog = getUsuarioLogueado();
     const usuario = getUsuario(vehiculo.duenioId);
     const popUp = document.getElementById("ventPopUp");
-
 
     indice = usuario.vehiculosVenta.findIndex(vehiculoU => vehiculoU.id == vehiculo.id);
     usuario.vehiculosVenta.splice(indice,1);

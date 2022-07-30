@@ -282,13 +282,7 @@ const widgetEmailP =(id, valorText, valorSelect)=>{
   contWidget.innerHTML = `<span class="input-group-text">Email: </span>
                           <input type="text" class="form-control" value="${valorText}" disabled>
                           <span class="input-group-text">@</span>
-                          <select class="form-select" value="${valorSelect}" disabled>
-                            <option >gmail.com</option>
-                            <option >hotmail.com</option>
-                            <option >yahoo.com</option>
-                            <option >outlook.com</option>
-                            <option onclick="otraExtencion()">otro</option>
-                          </select>
+                          <input type="text" id="emailExt" class="form-control" value="${valorSelect}" disabled>
                           <button class="btn btn-outline-secondary" onclick="editar('${id}')" type="button" id="button-addon2">Editar</button>`
   return contWidget;
 }
