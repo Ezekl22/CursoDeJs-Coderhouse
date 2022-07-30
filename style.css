@@ -356,3 +356,62 @@
     font-size: 45px;
 }
 
+.btnCardSup{
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+}
+
+.widthMaximo{
+    width: 100%;
+}
+
+.contenidoDerecha{
+    display: flex;
+    justify-content: right;
+    margin: 5px 15px 0px 0px;
+}
+
+.iconsCards{
+    width: 15px;
+    height: 15px;
+}
+
+.contenidoCentro{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.contMiPerfil{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    border: solid 1px rgb(217, 220 ,224)  ;
+    border-radius: 10px;
+    width: 80%;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.4);
+}
+
+.wdgSelectorPerfil{
+    width: 300px;
+    margin-left: 15px;
+}
+
+.contWdgSelectorPerfil{
+    font-size: 25px;
+}
+
+.wdgLabelPerfil{
+    font-size: 25px;
+}
+
+.contElementosP{
+    width: 50%;
+    margin: 15px 0px 0px 25px;
+    font-size: 25px;
+}
+
+.row{
+    flex-direction: row;
+}
