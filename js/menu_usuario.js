@@ -96,7 +96,7 @@ function cargarMiPerfil(){
 
     switch (datosPerfil[i]) {
       case "Categoria fiscal: ":
-        textPerfil = widgetSelectP(opcionesCatF, datosPerfil[i], id);
+        textPerfil = widgetSelectP(opcionesCatF, datosPerfil[i], id, categoriaFiscal);
         break;
       case "Contraseña: ":
         textPerfil = widgetTextP(datosPerfil[i], datosUsuario[i],"password",id);
@@ -254,18 +254,21 @@ const widgetTextP = (textLabel, text, tipo, id) =>{
   return widgetContent;
 }
 
-const widgetSelectP =(opciones, texto, id)=>{
+const widgetSelectP =(opciones, texto, id, dato)=>{
   const contSelectP = document.createElement("div");
 
   contSelectP.className = "input-group mb-3";
   contSelectP.id = id;
   let options = "";
   for (let opcion of opciones) {
-    options += `<option>${opcion}</option>`
+    if(opcion == dato)
+      options += `<option selected>${opcion}</option>`
+    else
+      options += `<option>${opcion}</option>` 
   }
 
   contSelectP.innerHTML = `<label class="input-group-text">${texto}</label>
-                          <select class="form-select" disabled>
+                          <select class="form-select" text="${dato}" disabled>
                           ${options}
                           </select>
                           <button class="btn btn-outline-secondary" onclick="editar('${id}')" type="button">Editar</button>`;

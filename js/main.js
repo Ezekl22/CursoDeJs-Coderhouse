@@ -104,7 +104,7 @@ function setUsuario(usuario) {
         let usuarios = getUsuarios() ? getUsuarios() : [];
 
         for(let i = 0; i< usuarios.length; i++){
-            (usuario.email === usuarios[i].email) && usuarios.splice(i,1);
+            (usuario.id === usuarios[i].id) && usuarios.splice(i,1);
         }
 
         usuarios.push(usuario);
@@ -364,9 +364,9 @@ const editar = (id)=>{
 const editarUsuario = (id)=>{
     const selectValue = (id == "wdg3") && document.querySelector(`#${id} select`).value;
     const inputTextValue = id != "wdg3" && document.querySelector(`#${id} input`).value;
-    const extencionEmail = document.querySelector(`#${id} select`).value;
+    const extencionEmail = document.querySelector(`#emailExt`).value;
     const usuario= getUsuarioLogueado();
-    const datoSelect = selectValue && id == "wdg3" ? selectValue : `${inputTextValue}@${selectValue}`;
+    const datoSelect = selectValue && selectValue;
     let datoModificado = false;
     switch (id) {
         case "wdg0": //Nombre
@@ -394,8 +394,8 @@ const editarUsuario = (id)=>{
             }
             break;
         case "wdgEmail"://Email
-            if(usuario.email != datoSelect){
-                usuario.email = datoSelect;
+            if(usuario.email != `${inputTextValue}@${extencionEmail}`){
+                usuario.email = `${inputTextValue}@${extencionEmail}`;
                 datoModificado = true;
             }
             break;
@@ -443,6 +443,7 @@ function comprar (vehiculo){
 
     setUsuario(usuarioLog);
     setUsuario(usuario);
+    recargarVehiculosCookie();
     setUsuarioLogueado(usuarioLog);
     popUp.remove();
     menu_usuario();
