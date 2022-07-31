@@ -142,6 +142,8 @@ const cards=(tipo)=> {
   const contenedorCards = document.getElementById(contCards.id);
   contenedorCards != null && contenedorCards.remove();
 
+  let indice = 0;
+
   filaCard.className = "row row-cols-1 row-cols-md-3 g-4"
 
   for (const vehiculo of vehiculos) {
@@ -155,6 +157,7 @@ const cards=(tipo)=> {
     const aireAc = vehiculo.aireAcondicionado;
     const calefaccion = vehiculo.calefaccion;
     const caracteristicas = Object.values(vehiculo);
+    const idColCard = "columnCard" + indice;
 
     for (let i = 1; i < caracteristicas.length -2; i++) {
       const textCaract = document.createElement("spam");
@@ -190,32 +193,26 @@ const cards=(tipo)=> {
     contCard.className = "card";
 
     columnaCard.className = "colCards";
+    columnaCard.id = idColCard;
 
     
     if(tipo === 1){
       const contBtnsSup = document.createElement("div");
       const btnEliminar = document.createElement("button");
       const imgEliminar = document.createElement("img");
-      const btnEditar = document.createElement("button");
-      const imgEditar = document.createElement("img");
 
       imgEliminar.src = "./img/iconEliminar.png";
       imgEliminar.className = "iconsCards";
-
-      imgEditar.src = "./img/iconEditar.png";
-      imgEditar.className = "iconsCards";
 
       contBtnsSup.className = "widthMaximo contenidoDerecha"
 
       btnEliminar.className = "btnCardSup btn btn-danger contenidoCentro";
       btnEliminar.style.marginRight = "3px";
-
-      btnEditar.className = "btnCardSup btn btn-info contenidoCentro";
+      btnEliminar.id = "btnEliminarCard";
+      btnEliminar.addEventListener("click", function(){eliminarCard(idColCard, vehiculo);});
 
       btnEliminar.appendChild(imgEliminar);
-      btnEditar.appendChild(imgEditar);
       contBtnsSup.appendChild(btnEliminar);
-      contBtnsSup.appendChild(btnEditar);
       contCard.appendChild(contBtnsSup);
     }
     contTextoCard.appendChild(tituloCard);
@@ -233,7 +230,7 @@ const cards=(tipo)=> {
       contBtnC.appendChild(btnCatalogo);
       contCard.appendChild(contBtnC);
     }
-
+    indice++;
     columnaCard.appendChild(contCard);
     filaCard.appendChild(columnaCard);
   }
