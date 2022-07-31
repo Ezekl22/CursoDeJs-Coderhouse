@@ -195,6 +195,9 @@ function checkLogin(accion) {
             case "1":
                 popUp('3');
                 break;
+            case "2":
+                mostrarCatalogo();
+                break
             case "inicio":// muesto el menu de usuario
                 cambiarBtnLogin();
                 break;
