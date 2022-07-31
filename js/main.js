@@ -454,3 +454,17 @@ function getUsuario (usuarioId){
     const usuario = usuarios.find(usuario => usuario.id == usuarioId);
     return usuario
 }
+
+function eliminarCard(id, vehiculo){
+    const usuarioLog = getUsuarioLogueado();
+    const card = document.getElementById(id);
+
+    indice = usuarioLog.vehiculosVenta.findIndex(vehiculoU => vehiculoU.id == vehiculo.id);
+    usuarioLog.vehiculosVenta.splice(indice,1);
+    
+    setUsuarioLogueado(usuarioLog);
+    setUsuario(usuarioLog);
+    recargarVehiculosCookie();
+    card.remove();
+    menu_usuario();
+}
