@@ -11,20 +11,4 @@ class usuario{
         this.vehiculosVenta = [];
         this.compras = [];
     }
-
-    getEsMayor(){
-        return this.edad > 17;
-    }
-
-    setCompra(compra){
-        this.compras.push(compra);
-    }
-
-    getCatFiscal(){
-        return this.categoriaFiscal;
-    }
-    
-    setVendido(){
-        
-    }
 }
