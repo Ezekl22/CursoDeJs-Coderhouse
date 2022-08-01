@@ -314,35 +314,6 @@ const ocultarCatalogo = ()=>{
     catalogo && catalogo.remove();
 }
 
-function valorPlanCuota(plan,valorVehiculo, cantCuotas){
-    
-    const valorTotal = valorPlan(plan,valorVehiculo, cantCuotas);
-    return valorTotal / cantCuotas;
-}
-
-function valorPlan(plan,valorVehiculo, cantCuotas){
-    const interesBase = 0.30;
-
-    // este calculo se realiza para aumentar el interes un 4% 3 cuotas.
-    // Ejemplo: si son 6 cuotas el interes es del 38%, pero para 12 cuotas el interes es de 46%
-    const interes = interesBase +((cantCuotas/3) * 4); 
-    let valorBase;
-
-    switch (plan) {
-        case "1": // plan 80/20
-            valorBase = valorVehiculo * 0.8;
-            break;
-        case "2": // plan 70/30
-            valorBase = valorVehiculo * 0.7;
-            break;
-        default:
-            valorBase = valorVehiculo;
-            break;
-    }
-
-    return valorBase + (valorBase * interes);
-}
-
 const editar = (id)=>{
     let text;
     const text2 = document.querySelector(`#emailExt`);
